@@ -15,12 +15,12 @@ No build, package installation, or external font service is required. GitHub Pag
 - `script.js`: navigation, reveals, and decorative illustration.
 - `assets/enning-yang.jpg`: user-supplied portrait (`IMG_0268 2.heic`), converted to JPEG with metadata removed.
 
-Content is based on `CV_Enning_Yang_2026.pdf` (October 2026). Publication and project links were checked against their official pages. The full CV and private phone number are not included in this public repository. Project descriptions describe Enning's contributions; the decorative network is not scientific data or a product screenshot.
+Content is based on `CV_Enning_Yang_2026_v2.pdf` (November 2026); `assets/Enning_Yang_Resume.pdf` is the public copy of that résumé with the phone number removed, built by `../tools/build_resume_2026_11.py` with `PUBLIC=1`. Publication and project links were checked against their official pages. The phone number is not included in this public repository. The numbers on the page (pull requests, tests, citations, downloads, releases) were counted on 2026-11-06 and should be refreshed when the résumé is. Project descriptions describe Enning's contributions; the decorative network is not scientific data or a product screenshot.
 
 ## Design
 
 - Visual thesis: a warm editorial portfolio with generous typography, a real portrait, and a restrained forest-green palette.
-- Content: portrait and introduction → selected work → background → research → contact.
+- Content: portrait and introduction with availability → key numbers → selected work (platform flow, open source, deep learning, ports, LLM products) → background → research → contact.
 - Interaction: staggered hero entrance, sections revealed on scroll, subtle link/arrow motion; respect reduced-motion preferences.
 
 ## Maintenance
