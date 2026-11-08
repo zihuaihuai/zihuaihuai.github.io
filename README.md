@@ -6,14 +6,13 @@ Static personal website published at https://zihuaihuai.github.io/.
 
 Run `python3 -m http.server 8765` from this directory, then open http://localhost:8765.
 
-No build or package installation is required. The only external resource is three.js, loaded from unpkg through an import map for the interactive brain in the hero. GitHub Pages serves the root of the `main` branch. The site works without JavaScript; JavaScript adds motion, the mobile navigation toggle, and a decorative network illustration.
+No build, package installation, or external resource is required. GitHub Pages serves the root of the `main` branch. The site works without JavaScript; JavaScript adds motion, the mobile navigation toggle, and a decorative network illustration.
 
 ## Edit
 
 - `index.html`: biography, experience, projects, research, and contact links.
 - `styles.css`: responsive layout, typography, and colors.
 - `script.js`: navigation, reveals, lazy autoplay for the case-study videos, and the image lightbox.
-- `brain.js`: three.js viewer for `media/brain/conte69.{bin,json}` (Conte69 surface + BrainSpace FC gradient 1, packed as Int16/Uint16/Uint8).
 - `media/`: WebM recordings (IronFist handover report, brainscores.ai demo journey, BrainSpace WebGL report) and JPEG screenshots/figures. Sources and crops are listed in `media/SOURCES.md`.
 - `assets/enning-yang.jpg`: user-supplied portrait (`IMG_0268 2.heic`), converted to JPEG with metadata removed.
 

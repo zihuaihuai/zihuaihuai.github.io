@@ -11,4 +11,3 @@
 | dl-synth-gallery.jpg, dl-brainmap-mosaic.jpg, dl-training-loss.jpg | CodeProj/brainClean/docs/resources, reports | title cropped |
 | oss-micapipe-workflow.jpg | CodeProj/micapipe/img/workflow-outputs_black.png | figure from Cruces et al., 2022 |
 | hub-software-stages.jpg | CodeProj/bscore-meeting-2026-10-23/screenshots | unused for now |
-| brain/conte69.bin/.json | BrainSpace datasets: conte69_32k_{lh,rh}.gii, conte69_32k_fc_gradient0.csv, masks | Int16 positions (0.1 mm), Uint16 faces, Uint8 scalar (0 = medial wall) |
