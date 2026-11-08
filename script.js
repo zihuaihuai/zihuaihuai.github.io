@@ -61,14 +61,14 @@
 
 // Lazy video: attach the source when near the viewport, play while visible, pause otherwise.
 (() => {
-  const videos = document.querySelectorAll('video.demo[data-src]');
+  const videos = document.querySelectorAll('video.demo');
   if (!videos.length) return;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => {
       const v = e.target;
       if (e.isIntersecting) {
-        if (!v.src) { v.src = v.dataset.src; v.load(); }
+        if (!v.dataset.loaded) { v.querySelectorAll('source[data-src]').forEach(s => { s.src = s.dataset.src; }); v.dataset.loaded = '1'; v.load(); }
         if (!reduce) v.play().catch(() => {});
       } else if (!v.paused) {
         v.pause();

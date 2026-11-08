@@ -1637,6 +1637,40 @@ nav a:hover:after {
     padding:6px 9px;
   }
 }
+
+/* ---- research: paper case studies ---- */
+.research .case {
+  padding:48px 0 54px;
+}
+.case-paper .case-copy h3 {
+  font-size:clamp(26px,2.3vw,33px);
+  letter-spacing:-.8px;
+  line-height:1.2;
+}
+.pub-authors {
+  font-size:12.5px;
+  line-height:1.6;
+  color:var(--muted);
+  margin:10px 0 6px;
+}
+.pub-authors strong {
+  color:var(--ink);
+  font-weight:600;
+}
+.case-paper .facts b {
+  font-size:19px;
+}
+.research-header>p {
+  max-width:380px;
+}
+.case-paper .case-media img {
+  background:#fff;
+}
+@media(max-width:760px) {
+  .research .case {
+    padding:36px 0 40px;
+  }
+}
 @media(prefers-reduced-motion:reduce) {
   html {
     scroll-behavior:auto;
