@@ -6,13 +6,15 @@ Static personal website published at https://zihuaihuai.github.io/.
 
 Run `python3 -m http.server 8765` from this directory, then open http://localhost:8765.
 
-No build, package installation, or external font service is required. GitHub Pages serves the root of the `main` branch. The site works without JavaScript; JavaScript adds motion, the mobile navigation toggle, and a decorative network illustration.
+No build or package installation is required. The only external resource is three.js, loaded from unpkg through an import map for the interactive brain in the hero. GitHub Pages serves the root of the `main` branch. The site works without JavaScript; JavaScript adds motion, the mobile navigation toggle, and a decorative network illustration.
 
 ## Edit
 
 - `index.html`: biography, experience, projects, research, and contact links.
 - `styles.css`: responsive layout, typography, and colors.
-- `script.js`: navigation, reveals, and decorative illustration.
+- `script.js`: navigation, reveals, lazy autoplay for the case-study videos, and the image lightbox.
+- `brain.js`: three.js viewer for `media/brain/conte69.{bin,json}` (Conte69 surface + BrainSpace FC gradient 1, packed as Int16/Uint16/Uint8).
+- `media/`: WebM recordings (IronFist handover report, brainscores.ai demo journey, BrainSpace WebGL report) and JPEG screenshots/figures. Sources and crops are listed in `media/SOURCES.md`.
 - `assets/enning-yang.jpg`: user-supplied portrait (`IMG_0268 2.heic`), converted to JPEG with metadata removed.
 
 Content is based on `CV_Enning_Yang_2026_v2.pdf` (November 2026); `assets/Enning_Yang_Resume.pdf` is the public copy of that résumé with the phone number removed, built by `../tools/build_resume_2026_11.py` with `PUBLIC=1`. Publication and project links were checked against their official pages. The phone number is not included in this public repository. The numbers on the page (pull requests, tests, citations, downloads, releases) were counted on 2026-11-06 and should be refreshed when the résumé is. Project descriptions describe Enning's contributions; the decorative network is not scientific data or a product screenshot.

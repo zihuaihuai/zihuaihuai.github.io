@@ -32,6 +32,7 @@
 
   // Decorative network, intentionally unrelated to patient data or scientific outputs.
   const network = document.querySelector('#brain-network');
+  if (!network) return;
   const svgNS = 'http://www.w3.org/2000/svg';
   let seed = 31;
   const random = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
@@ -56,4 +57,45 @@
     Object.entries({ cx: point.x, cy: point.y, r: random() * 1.8 + 1.4, fill: '#d2dfb8', 'fill-opacity': random() * 0.6 + 0.35 }).forEach(([key, value]) => dot.setAttribute(key, value));
     network.append(dot);
   });
+})();
+
+// Lazy video: attach the source when near the viewport, play while visible, pause otherwise.
+(() => {
+  const videos = document.querySelectorAll('video.demo[data-src]');
+  if (!videos.length) return;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      const v = e.target;
+      if (e.isIntersecting) {
+        if (!v.src) { v.src = v.dataset.src; v.load(); }
+        if (!reduce) v.play().catch(() => {});
+      } else if (!v.paused) {
+        v.pause();
+      }
+    });
+  }, { rootMargin: '200px 0px', threshold: 0.1 });
+  videos.forEach(v => { io.observe(v); v.addEventListener('click', () => { v.paused ? v.play() : v.pause(); }); });
+})();
+
+// Lightbox for screenshots and figures.
+(() => {
+  const box = document.querySelector('#lightbox');
+  if (!box || typeof box.showModal !== 'function') return;
+  const img = box.querySelector('img');
+  const cap = box.querySelector('.lightbox-caption');
+  document.querySelectorAll('a.zoomable').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const thumb = a.querySelector('img');
+      img.src = a.getAttribute('href');
+      img.alt = thumb ? thumb.alt : '';
+      const fc = a.closest('figure')?.querySelector('figcaption');
+      cap.textContent = fc ? fc.textContent : (thumb ? thumb.alt : '');
+      box.showModal();
+    });
+  });
+  box.querySelector('.lightbox-close').addEventListener('click', () => box.close());
+  box.addEventListener('click', e => { if (e.target === box) box.close(); });
+  box.addEventListener('close', () => { img.removeAttribute('src'); });
 })();

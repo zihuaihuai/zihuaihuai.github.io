@@ -9,11 +9,12 @@
   <meta property="og:title" content="Enning Yang — ML platform, data & AI engineering">
   <meta property="og:description" content="Research models into production. 299 merged pull requests, 2,100+ tests, libraries cited by 800+ papers. Open to new roles from November 2026.">
   <meta property="og:url" content="https://zihuaihuai.github.io/">
-  <meta property="og:image" content="https://zihuaihuai.github.io/assets/enning-yang.jpg">
+  <meta property="og:image" content="https://zihuaihuai.github.io/media/bs-viewer.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://zihuaihuai.github.io/">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="me" href="https://github.com/zihuaihuai">
+  <link rel="preload" href="media/brain/conte69.bin" as="fetch" crossorigin>
   <link rel="stylesheet" href="styles.css">
   <title>Enning Yang — ML platform, data & AI engineering, Montréal</title>
   <script type="application/ld+json">
@@ -32,7 +33,11 @@
     "sameAs": ["https://github.com/zihuaihuai", "https://www.linkedin.com/in/enning-yang-aa3286189/"]
   }
   </script>
+  <script type="importmap">
+  {"imports": {"three": "https://unpkg.com/three@0.170.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.170.0/examples/jsm/"}}
+  </script>
   <script src="script.js" defer></script>
+  <script type="module" src="brain.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -54,9 +59,13 @@
         <p class="status-pill hero-enter"><span class="status-dot" aria-hidden="true"></span>Open to ML platform, MLOps and data &amp; AI roles from November 2026</p>
         <div class="hero-links hero-enter"><a class="text-link" href="#work">See the work <span aria-hidden="true">↘</span></a><a class="text-link" href="assets/Enning_Yang_Resume.pdf" target="_blank" rel="noopener">Résumé (PDF) <span aria-hidden="true">↗</span></a></div>
       </div>
-      <figure class="hero-portrait hero-enter">
-        <div class="portrait-plane"><img src="assets/enning-yang.jpg" width="1193" height="1287" alt="Enning Yang smiling, wearing glasses" fetchpriority="high"></div>
-        <figcaption><span>MONTRÉAL, CANADA</span><span>EN / FR / 中文</span></figcaption>
+      <figure class="hero-brain hero-enter" aria-label="Interactive 3D cortical surface coloured by the first functional-connectivity gradient">
+        <canvas id="brain"></canvas>
+        <img class="brain-fallback" src="media/brain/conte69-poster.jpg" width="1200" height="1260" alt="Both cortical hemispheres rendered in 3D and coloured by a connectivity gradient" loading="lazy">
+        <figcaption>
+          <span class="brain-legend" aria-hidden="true"><em>unimodal</em><i></i><em>transmodal</em></span>
+          <span class="brain-note">Conte69 surface, 65k vertices · functional-connectivity gradient 1 from BrainSpace · rendered live with three.js · <b>drag to rotate</b></span>
+        </figcaption>
       </figure>
       <div class="hero-bottom"><span>Research Software Developer · BrainScores &amp; MICA Lab, McGill University</span><span class="hero-bottom-links"><a href="https://github.com/zihuaihuai" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a><a href="https://www.linkedin.com/in/enning-yang-aa3286189/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a></span></div>
     </section>
@@ -73,47 +82,172 @@
     </section>
 
     <section class="work section-shell" id="work" aria-labelledby="work-title">
-      <div class="section-heading reveal"><p class="eyebrow">01 / SELECTED WORK</p><h2 id="work-title">Built to leave<br> the notebook.</h2><p>I work across the whole path from a research model to something people rely on: data pipelines, APIs, infrastructure, and the tests that keep it honest.</p></div>
+      <div class="section-heading reveal"><p class="eyebrow">01 / SELECTED WORK</p><h2 id="work-title">Built to leave<br> the notebook.</h2><p>Six case studies, each with what was broken, what I built, what changed, and what my role was. Recordings and screenshots are from the real systems.</p></div>
 
-      <article class="featured-project reveal">
-        <div class="project-art" aria-hidden="true">
-          <div class="art-topline"><span>BrainScores</span><span>SCANNER → REPORT</span></div>
-          <svg class="brain-art" viewBox="0 0 500 400" fill="none"><defs><radialGradient id="glow"><stop stop-color="#c7d7a7" stop-opacity=".12"/><stop offset="1" stop-color="#c7d7a7" stop-opacity="0"/></radialGradient></defs><ellipse cx="250" cy="205" rx="225" ry="190" fill="url(#glow)"/><g id="brain-network"></g></svg>
-          <ol class="flow">
-            <li><span class="flow-name">MRI scanner</span><span class="flow-meta">4 sites</span></li>
-            <li><span class="flow-name">AutoDICOM</span><span class="flow-meta">hourly · atomic publish · 718 sessions</span></li>
-            <li><span class="flow-name">BIDS dataset</span><span class="flow-meta">1.4 TB · validator errors 24,915 → 0</span></li>
-            <li><span class="flow-name">IronFist</span><span class="flow-meta">6 pipelines · 256-core cluster · 1,394 tests</span></li>
-            <li><span class="flow-name">PDF report + 3D viewer</span><span class="flow-meta">≈ 40 min, self-serve</span></li>
-          </ol>
-          <div class="art-bottomline"><span>DICOM → BIDS → PIPELINES → PRODUCT</span><span>2024 — 2026</span></div>
+      <!-- 01 IronFist -->
+      <article class="case reveal" id="ironfist">
+        <div class="case-media">
+          <div class="video-grid">
+            <figure><video class="demo" muted loop playsinline preload="none" poster="media/ironfist-start-run.jpg" data-src="media/ironfist-start-run.webm" aria-label="Starting a run: choosing the acquisition to process"></video><figcaption>Start a run: pick the acquisition, review it, submit to the cluster</figcaption></figure>
+            <figure><video class="demo" muted loop playsinline preload="none" poster="media/ironfist-datasets.jpg" data-src="media/ironfist-datasets.webm" aria-label="Browsing every BIDS session the platform can see"></video><figcaption>Every BIDS session the platform can see, with readiness and run state</figcaption></figure>
+            <figure><video class="demo" muted loop playsinline preload="none" poster="media/ironfist-batch.jpg" data-src="media/ironfist-batch.webm" aria-label="Planning and launching a cohort batch"></video><figcaption>Plan a cohort batch: cost estimate, review queue, concurrency cap</figcaption></figure>
+            <figure><video class="demo" muted loop playsinline preload="none" poster="media/ironfist-monitor.jpg" data-src="media/ironfist-monitor.webm" aria-label="Monitoring runs, heads and scheduler jobs live"></video><figcaption>Runs, scheduler jobs and logs, live, for the whole lab</figcaption></figure>
+          </div>
+          <p class="media-note">Screen recordings from the October 2026 handover report. Dataset identifiers are the public MICA-MICs research codes.</p>
         </div>
-        <div class="featured-copy"><p class="eyebrow">PRODUCTION PLATFORM / 2024 — PRESENT</p><h3>BrainScores</h3><p class="project-lead">From the scanner to an interactive report, with no one babysitting the cluster.</p><p>I built and run the MRI-processing platform at McGill’s MICA Lab. AutoDICOM turns new scans into BIDS every hour. IronFist runs six neuroimaging pipelines in SHA-pinned containers on an SGE cluster, with a run registry, a lab-wide dashboard and a sign-in portal that tracks 1,100+ sessions.</p><p>The public side is brainscores.ai on AWS: Next.js, Cognito sign-in, direct-to-S3 uploads, every piece of infrastructure in Terraform, and GitHub Actions deploys with OIDC. A researcher picks a scan and gets a PDF report and a 3D viewer about 40 minutes later.</p><p>A 692-session campaign finished in 34 hours after I doubled the cluster throughput. The test suites hold 2,100+ tests.</p><p class="technology">Python · Snakemake · FastAPI · Next.js · AWS · Terraform · Singularity</p><a class="text-link" href="https://brainscores.ai/" target="_blank" rel="noopener noreferrer">Visit brainscores.ai <span aria-hidden="true">↗</span></a></div>
+        <div class="case-copy">
+          <p class="eyebrow">01 · PRODUCTION PLATFORM · SOLE ENGINEER AND OWNER · JUL 2025 — NOV 2026</p>
+          <h3>IronFist</h3>
+          <p class="case-lead">Six neuroimaging pipelines, one platform, nobody babysitting the cluster.</p>
+          <p><strong>Before.</strong> The lab ran FastSurfer, HippUnfold, micapipe, nnU-Net quality control and z-brains by hand, one subject at a time, and 55% of legacy sessions mixed software versions.</p>
+          <p><strong>What I built.</strong> A Snakemake workflow in SHA-pinned Singularity containers on a 256-core SGE cluster, with a run registry, a lab-wide operations dashboard and a sign-in portal. Atomic symlink releases with health checks and one-command rollback. A lock file that pins nine components and two model weights and is verified on every run. 1,394 tests and GitHub Actions CI.</p>
+          <p><strong>What changed.</strong> A 692-session campaign was projected at three days and failed silently at scale. I profiled SGE slot reservation, re-tuned threads and added automatic resubmission: 34 hours at twice the throughput, zero failures, five scale-only faults fixed. The platform now tracks 1,100+ sessions across four cohorts and was handed over with a runbook, an eight-page wiki and a meeting with the two PIs.</p>
+          <ul class="facts"><li><b>1,394</b> tests</li><li><b>1,100+</b> sessions</li><li><b>692 / 692</b> in 34 h</li><li><b>13 → 27</b> sessions / h</li></ul>
+          <p class="technology">Python · Snakemake · Singularity · SGE · FastAPI · SQLite · GitHub Actions</p>
+        </div>
       </article>
 
-      <div class="project-list">
-        <article class="project-row reveal"><span class="project-index">02</span><div class="project-summary"><p class="eyebrow">OPEN SOURCE · MAINTAINER</p><h3>BrainSpace &amp; BrainStat</h3><p>Python and MATLAB libraries for mapping and comparing brain organization, cited by 800+ papers and downloaded about 6,800 times a month. I took over maintenance in 2024 after two to three years without a release: 14 releases since, every open issue closed, and CI rebuilt with tag-validated publishing to PyPI and MATLAB.</p><div class="inline-links"><a href="https://github.com/MICA-MNI/BrainSpace" target="_blank" rel="noopener noreferrer">BrainSpace · 254 stars <span aria-hidden="true">↗</span></a><a href="https://github.com/MICA-MNI/BrainStat" target="_blank" rel="noopener noreferrer">BrainStat · 119 stars <span aria-hidden="true">↗</span></a></div></div><p class="project-note">Scientific software<br> Python / MATLAB</p></article>
-        <article class="project-row reveal"><span class="project-index">03</span><div class="project-summary"><p class="eyebrow">PIPELINES &amp; SCIENTIFIC COMPUTING</p><h3>micapipe v1</h3><p>I led the v1 rewrite of this multimodal MRI pipeline (cited by 115+ papers) as a Snakemake/snakebids workflow: eight processing modules, two-stage Docker and Apptainer builds so the 50 GB tool image rebuilds in seconds, and lint plus smoke-test CI on a self-hosted runner. About 500 commits.</p><div class="inline-links"><a href="https://github.com/MICA-MNI/micapipe" target="_blank" rel="noopener noreferrer">micapipe · 121 stars <span aria-hidden="true">↗</span></a></div></div><p class="project-note">Workflow engineering<br> Snakemake / Apptainer</p></article>
-        <article class="project-row reveal"><span class="project-index">04</span><div class="project-summary"><p class="eyebrow">DEEP LEARNING FOR MRI</p><h3>Models that run on a real cluster</h3><p>Trained 3D models with PyTorch DDP on four A6000 GPUs: a 66M-parameter residual U-Net with SynthSeg-style domain randomization, and a Neural-ODE mesh-deformation model for cortical surfaces, where I found an adjoint-gradient bug that had silently frozen the encoder. Benchmarked ONNX Runtime and OpenVINO inference for the lab’s segmentation and surface models: 2.4× faster on CPU with bit-identical output.</p><p class="technology">PyTorch · ONNX Runtime · OpenVINO · SGE</p></div><p class="project-note">Research engineering<br> PyTorch / ONNX</p></article>
-        <article class="project-row reveal"><span class="project-index">05</span><div class="project-summary"><p class="eyebrow">PORTS WITH PARITY TESTS</p><h3>zb_command &amp; pyonlm</h3><p>Python ports of C++ scientific tools, tested against the originals: 27 Connectome Workbench commands, 22 of them bit-exact with nightly parity CI, and the mincnlm MRI denoiser at correlation 1.0000 and 1.4× the speed on 32 threads. I also packaged FastScrubber, an nnU-Net mask-QC model, as a one-command conda, Docker or Apptainer install.</p><div class="inline-links"><a href="https://github.com/zihuaihuai/pyonlm" target="_blank" rel="noopener noreferrer">pyonlm <span aria-hidden="true">↗</span></a><a href="https://github.com/zihuaihuai/fast_scrubber" target="_blank" rel="noopener noreferrer">FastScrubber packaging <span aria-hidden="true">↗</span></a></div></div><p class="project-note">Scientific software<br> Python / Cython</p></article>
-        <article class="project-row reveal"><span class="project-index">06</span><div class="project-summary"><p class="eyebrow">LLM APPLICATIONS</p><h3>AI products at Eureka</h3><p>As the first engineer at a consumer-AI startup, I built and deployed two backends on AWS with Terraform and GitLab CI/CD: a dish-recommendation API with LLM-written explanations (LangChain, Azure OpenAI) exposed as ChatGPT actions, and a virtual interior-design service running Stable Diffusion, Mask2Former and depth estimation on SageMaker and Hugging Face endpoints.</p><p class="technology">FastAPI · PostgreSQL · MongoDB · LangChain · Azure OpenAI · AWS</p></div><p class="project-note">Founding engineer<br> 2023 — 2024</p></article>
-      </div>
+      <!-- 02 AutoDICOM -->
+      <article class="case case-flip reveal" id="autodicom">
+        <div class="case-media">
+          <div class="project-art" aria-hidden="true">
+            <div class="art-topline"><span>AutoDICOM → IronFist</span><span>SCANNER → REPORT</span></div>
+            <ol class="flow">
+              <li><span class="flow-name">MRI scanner</span><span class="flow-meta">4 sites · DICOM</span></li>
+              <li><span class="flow-name">AutoDICOM</span><span class="flow-meta">hourly watcher · waits for stable files · atomic publish</span></li>
+              <li><span class="flow-name">BIDS dataset</span><span class="flow-meta">1.4 TB · 43,129 files · validator errors 24,915 → 0</span></li>
+              <li><span class="flow-name">IronFist</span><span class="flow-meta">6 pipelines · 256-core cluster · 1,394 tests</span></li>
+              <li><span class="flow-name">PDF report + 3D viewer</span><span class="flow-meta">≈ 40 min, self-serve</span></li>
+            </ol>
+            <div class="art-bottomline"><span>DICOM → NIfTI → BIDS → DERIVATIVES</span><span>IN PRODUCTION SINCE AUG 2026</span></div>
+          </div>
+        </div>
+        <div class="case-copy">
+          <p class="eyebrow">02 · DATA PIPELINE · SOLE ENGINEER · 2025 — 2026</p>
+          <h3>AutoDICOM and the BIDS rebuild</h3>
+          <p class="case-lead">New scans arrive in the research dataset within the hour, and nothing ever gets overwritten.</p>
+          <p><strong>Before.</strong> Scans were sorted and converted by hand with shell scripts, days after acquisition, and the lab’s 1.4 TB dataset failed the BIDS validator 24,915 times.</p>
+          <p><strong>What I built.</strong> An hourly service that finds new sessions, waits until files have been stable for four hours, converts DICOM to NIfTI and publishes each BIDS session atomically. It never overwrites an existing session and never publishes a partial one. A main → prod promotion gate in CI, a read-only dashboard, 200 tests. For the legacy data, a non-destructive migration that recorded all 23,767 actions and left the source untouched.</p>
+          <p><strong>What changed.</strong> In production since August 2026: 718 sessions from 518 subjects converted, none needing manual attention. Validator errors: zero.</p>
+          <ul class="facts"><li><b>718</b> sessions</li><li><b>0</b> needing attention</li><li><b>24,915 → 0</b> validator errors</li><li><b>200</b> tests</li></ul>
+          <p class="technology">Python · dcm2niix · BIDS · SQLite · systemd · GitHub Actions</p>
+        </div>
+      </article>
 
-      <div class="more-work reveal"><p>Smaller things. The same care.</p><ul class="more-list"><li><strong>AI PI</strong> — prize-winning team at Build OS26, Mila Ventures’ AI-agent hackathon: a Slack multi-agent system where PI-persona agents review a research proposal like a thesis committee.</li><li><strong>ReaLchords</strong> — the real-time ONNX inference path for the ICLR 2026 live music paper below.</li><li><strong>This site</strong> — plain HTML and CSS, no build step. <a href="https://github.com/zihuaihuai/zihuaihuai.github.io" target="_blank" rel="noopener noreferrer">Source <span aria-hidden="true">↗</span></a></li></ul></div>
+      <!-- 03 brainscores.ai -->
+      <article class="case reveal" id="brainscores">
+        <div class="case-media">
+          <figure class="video-wide"><video class="demo" muted loop playsinline preload="none" poster="media/brainscores-journey.jpg" data-src="media/brainscores-journey.webm" aria-label="Walkthrough of brainscores.ai: sign in, upload a scan, follow the analysis, open the report and the 3D viewer"></video><figcaption>The researcher journey on dev2.brainscores.ai, recorded for the investor demo (synthetic data, run sped up 30×)</figcaption></figure>
+          <div class="shot-strip">
+            <a class="zoomable" href="media/bs-workspace.jpg"><img src="media/bs-workspace.jpg" alt="Workspace: scans, analyses and recent results" decoding="async" width="1200" height="1217"></a>
+            <a class="zoomable" href="media/bs-complete.jpg"><img src="media/bs-complete.jpg" alt="Analysis page showing the seven pipeline stages complete" decoding="async" width="1200" height="1341"></a>
+            <a class="zoomable" href="media/bs-viewer.jpg"><img src="media/bs-viewer.jpg" alt="The results viewer with both hemispheres coloured by cortical thickness" decoding="async" width="1280" height="800"></a>
+          </div>
+        </div>
+        <div class="case-copy">
+          <p class="eyebrow">03 · CLOUD AND PRODUCT · INFRA AND CI/CD OWNER ON A 3-PERSON TEAM · 2026</p>
+          <h3>brainscores.ai</h3>
+          <p class="case-lead">A researcher picks a scan; forty minutes later there is a PDF report and a 3D viewer.</p>
+          <p><strong>Before.</strong> The startup needed a public site with sign-in and study uploads on Canadian-resident infrastructure, and researchers had to ask an engineer to run the MICAFlow pipeline.</p>
+          <p><strong>What I built.</strong> The infrastructure and delivery for the Next.js site (38 of 39 infra commits): Terraform for ECS Fargate on ARM64, CloudFront and ALB, Cognito sign-in, presigned uploads straight to S3 with server-side size limits, DynamoDB. GitHub Actions deploys with OIDC and no stored keys, main → dev → prod promotion, Terraform contract tests. Then the self-serve pipeline: a FastAPI service and portal that runs MICAFlow on 24 SGE cores and hands the result to the viewer through a ten-minute HMAC-signed link, with every component version pinned and verified per run (538 tests). On the clinical viewer itself, built by a teammate, I added Playwright end-to-end tests, render-safety and left/right checks and a deploy gate that blocks releases without verification evidence.</p>
+          <p><strong>What changed.</strong> Live since July 2026; the dev environment costs about $25 a month.</p>
+          <ul class="facts"><li><b>Jul 2026</b> live</li><li><b>0</b> stored cloud keys</li><li><b>538</b> tests in the hub</li><li><b>≈ $25 / mo</b> dev</li></ul>
+          <p class="technology">Next.js · AWS (ECS Fargate, CloudFront, Cognito, S3, DynamoDB) · Terraform · GitHub Actions + OIDC · FastAPI · Cornerstone3D · three.js</p>
+          <a class="text-link" href="https://brainscores.ai/" target="_blank" rel="noopener noreferrer">Visit brainscores.ai <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+
+      <!-- 04 Open source -->
+      <article class="case case-flip reveal" id="oss">
+        <div class="case-media">
+          <figure class="video-wide"><video class="demo" muted loop playsinline preload="none" poster="media/oss-brainspace-webgl.jpg" data-src="media/brainspace-webgl.webm" aria-label="BrainSpace 0.3.0 WebGL surface report, rotating a gradient-coloured brain in the browser"></video><figcaption>BrainSpace 0.3.0: the new WebGL HTML surface report, shipped in release 9 of the 14</figcaption></figure>
+          <figure><a class="zoomable" href="media/oss-micapipe-workflow.jpg"><img src="media/oss-micapipe-workflow.jpg" alt="micapipe workflow: BIDS input, structural, surface and post-structural stages fanning out to functional, diffusion, MPC, geodesic distance and FLAIR outputs" decoding="async" width="1600" height="1174"></a><figcaption>micapipe’s workflow and outputs (figure from Cruces et al., 2022). I led the v1 rewrite of this pipeline onto Snakemake.</figcaption></figure>
+        </div>
+        <div class="case-copy">
+          <p class="eyebrow">04 · OPEN SOURCE · LEAD MAINTAINER · 2024 — 2026</p>
+          <h3>BrainSpace, BrainStat, micapipe</h3>
+          <p class="case-lead">Three libraries thousands of researchers depend on, back on a release cadence.</p>
+          <p><strong>Before.</strong> BrainSpace and BrainStat, cited by 800+ papers, had not had a release in two to three years. Issues piled up, CI was red, and the lab’s flagship pipeline micapipe was a 2,000-line bash workflow.</p>
+          <p><strong>What I did.</strong> Took over as lead maintainer: triaged and closed 80+ issues, reviewed external pull requests, rebuilt CI for Python 3.10–3.12 with tag-validated publishing to PyPI and MATLAB, added a Docker image and contribution and security policies, and shipped 14 releases including a WebGL surface report and new atlases. Led the micapipe v1 rewrite with its original author (495 of about 500 v1 commits): Snakemake/snakebids, eight modules, two-stage Docker and Apptainer builds so the 50 GB tool image rebuilds in minutes, lint and smoke-test CI on a self-hosted runner. Replaced two C++ dependencies with Python ports validated against the originals: zb_command (27 Connectome Workbench commands, 22 bit-exact) and pyonlm (correlation 1.0000 with mincnlm, 1.4× faster).</p>
+          <p><strong>What changed.</strong> Zero open issues, about 6,800 downloads a month, and a pipeline other labs can actually run.</p>
+          <ul class="facts"><li><b>14</b> releases</li><li><b>80+</b> issues closed</li><li><b>≈ 6,800</b> downloads / mo</li><li><b>254 · 119 · 121</b> stars</li></ul>
+          <div class="inline-links"><a href="https://github.com/MICA-MNI/BrainSpace" target="_blank" rel="noopener noreferrer">BrainSpace <span aria-hidden="true">↗</span></a><a href="https://github.com/MICA-MNI/BrainStat" target="_blank" rel="noopener noreferrer">BrainStat <span aria-hidden="true">↗</span></a><a href="https://github.com/MICA-MNI/micapipe" target="_blank" rel="noopener noreferrer">micapipe <span aria-hidden="true">↗</span></a><a href="https://github.com/zihuaihuai/pyonlm" target="_blank" rel="noopener noreferrer">pyonlm <span aria-hidden="true">↗</span></a></div>
+        </div>
+      </article>
+
+      <!-- 05 Deep learning -->
+      <article class="case reveal" id="ml">
+        <div class="case-media">
+          <figure><a class="zoomable" href="media/dl-thickness-surfaces.jpg"><img src="media/dl-thickness-surfaces.jpg" alt="Cortical thickness mapped on a subject's left hemisphere, lateral and medial views, for two model checkpoints" decoding="async" width="1600" height="1062"></a><figcaption>Cortical thickness on a subject’s own surface from the Vox2Vert surface model, two checkpoints compared on one camera and scale</figcaption></figure>
+          <div class="shot-strip two">
+            <figure><a class="zoomable" href="media/dl-synth-gallery.jpg"><img src="media/dl-synth-gallery.jpg" alt="Synthetic training gallery: one anatomy label map and three random intensity draws per row" decoding="async" width="1600" height="1237"></a><figcaption>SynthSeg-style training data: same anatomy, new intensities every iteration, so the model cannot rely on “bright means white matter”</figcaption></figure>
+            <figure><a class="zoomable" href="media/dl-brainmap-mosaic.jpg"><img src="media/dl-brainmap-mosaic.jpg" alt="Mosaic of the thirteen tissue and pathology classes the segmentation model predicts" decoding="async" width="1600" height="1402"></a><figcaption>The 13 tissue and pathology classes of the 3D U-Net</figcaption></figure>
+          </div>
+        </div>
+        <div class="case-copy">
+          <p class="eyebrow">05 · DEEP LEARNING FOR MRI · RESEARCH ENGINEER · 2025 — 2026</p>
+          <h3>Models that run on a real cluster</h3>
+          <p class="case-lead">Training 3D networks, finding the bug that froze one, and picking the serving path.</p>
+          <p><strong>Segmentation.</strong> The lab needed a license-clean replacement for SynthSeg. I trained a 66M-parameter residual 3D U-Net with SynthSeg-style domain randomization over 13 tissue and pathology classes, with PyTorch DDP on four A6000 GPUs, then fine-tuned on 93 real subjects. On a held-out real T1 it reaches white- and grey-matter Dice of 0.83 and 0.89 against 0.89 and 0.92 for SynthSeg itself, at 16 seconds a volume.</p>
+          <p><strong>Surfaces.</strong> A Neural-ODE mesh-deformation model for cortical surfaces was stuck at a loss plateau. I traced it to an adjoint bug that silently froze the U-Net encoder, fixed a gradient bias in the solver, and added Huber loss, gradient checkpointing and mixed precision.</p>
+          <p><strong>Serving.</strong> Benchmarked ONNX Runtime and OpenVINO for the lab’s two inference models: 2.4× faster on CPU, 2.1× on GPU, bit-identical outputs. The team adopted the audit.</p>
+          <ul class="facts"><li><b>66M</b> parameters</li><li><b>13</b> classes</li><li><b>4×</b> A6000, DDP</li><li><b>2.4×</b> faster on CPU</li></ul>
+          <p class="technology">PyTorch · DDP · MONAI · nnU-Net · ONNX Runtime · OpenVINO · SGE</p>
+        </div>
+      </article>
+
+      <!-- 06 LLM products -->
+      <article class="case case-flip reveal" id="llm">
+        <div class="case-media">
+          <div class="agent-art" aria-hidden="true">
+            <div class="agent-row"><span class="agent-node slack">Slack thread<small>a researcher posts a proposal</small></span></div>
+            <div class="agent-arrow">↓</div>
+            <div class="agent-row"><span class="agent-node hub">AI PI orchestrator<small>dedupe · routing · memory · timers</small></span></div>
+            <div class="agent-arrow">↓ fan-out</div>
+            <div class="agent-row personas"><span class="agent-node">Methods PI</span><span class="agent-node">Clinical PI</span><span class="agent-node">Stats PI</span><span class="agent-node">Buddy</span><span class="agent-node">Chair</span></div>
+            <div class="agent-arrow">↓ merge</div>
+            <div class="agent-row"><span class="agent-node out">Revised proposal + next steps<small>posted back to the thread, replayable in a dashboard</small></span></div>
+          </div>
+        </div>
+        <div class="case-copy">
+          <p class="eyebrow">06 · LLM PRODUCTS AND AGENTS · FOUNDING ENGINEER · HACKATHON TEAM OF 3</p>
+          <h3>LLM products, from a startup to a thesis committee</h3>
+          <p class="case-lead">Two LLM-backed backends shipped as the first engineer, and a prize-winning multi-agent system built in a day.</p>
+          <p><strong>Eureka (2023–2024).</strong> First engineer at a three-person consumer-AI startup. I designed and shipped two FastAPI backends (47 and 42 endpoints) on ECS Fargate and RDS with Terraform and GitLab CI/CD: a dish recommender whose explanations are written by Azure OpenAI through LangChain and exposed as ChatGPT actions, fed by about 1,000 Yelp, Google and DoorDash reviews mined with GPT, and A/B-tested; and a virtual interior-design service running Stable Diffusion, Mask2Former and depth estimation on SageMaker and Hugging Face endpoints with failover.</p>
+          <p><strong>AI PI (Build OS26, Mila Ventures, 2026).</strong> With two teammates, in one day: a Slack system where PI-persona agents with their own memory review a research proposal like a thesis committee and merge their feedback into a revised proposal. I built the agent workflows, the Slack integration and the replay dashboard; 18 tests; Codex CLI as the reasoning backend. Prize-winning team.</p>
+          <p><strong>ReaLchords (ICLR 2026).</strong> Engineering lead for real-time inference: ONNX export and on-device speed-ups so the model can jam live with a human.</p>
+          <p class="technology">FastAPI · PostgreSQL · MongoDB · LangChain · Azure OpenAI · AutoGen · Codex CLI · Slack API · ONNX</p>
+        </div>
+      </article>
     </section>
 
     <section class="about" id="about" aria-labelledby="about-title"><div class="section-shell about-grid">
-      <div class="about-intro reveal"><p class="eyebrow">02 / A LITTLE CONTEXT</p><h2 id="about-title">A researcher’s curiosity.<br> An engineer’s instinct.</h2><p>I trained in computer science at UESTC and in neuroscience and AI at McGill and Mila, then went straight into building: founding engineer at an AI startup in 2023, and since 2024 the engineer behind BrainScores’ platform and the MICA Lab’s open-source stack.</p><p>I like owning the whole thing: the model, the pipeline around it, the infrastructure under it, and the tests that let other people trust it. Most days that means Python, Snakemake, FastAPI, Terraform and a cluster queue.</p><p>Claude Code and Codex are my primary coding tools, with every change gated by CI, tests and code review. In 2026 my team was among the prize winners at Build OS26, Mila Ventures’ AI-agent hackathon.</p><p>Authorized to work in Canada, with permanent residence in process. English, French (B2) and Mandarin.</p><div class="inline-links about-links"><a href="https://www.linkedin.com/in/enning-yang-aa3286189/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a><a href="assets/Enning_Yang_Resume.pdf" target="_blank" rel="noopener">Résumé (PDF) <span aria-hidden="true">↗</span></a></div></div>
-      <div class="background reveal"><h3>Along the way</h3><ol class="timeline"><li><span class="date">SEP 2024 — NOW</span><div><h4>Research Software Developer</h4><p>BrainScores · MICA Lab, McGill University, Montréal</p></div></li><li><span class="date">2023 — 2024</span><div><h4>Founding Software Engineer, AI</h4><p>Eureka Inc., Seattle (remote)</p></div></li><li><span class="date">2020</span><div><h4>Data Science Intern</h4><p>Intel Corporation</p></div></li></ol><div class="education"><h3>Education</h3><p><strong>MSc, Neuroscience &amp; Artificial Intelligence</strong><br> McGill University &amp; Mila · 2021 — 2023</p><p><strong>BEng, Computer Science with Honors</strong><br> UESTC · 2016 — 2020<br> <span class="muted">Exchange semester at UC Berkeley</span></p></div></div>
+      <div class="about-intro reveal">
+        <p class="eyebrow">02 / A LITTLE CONTEXT</p>
+        <h2 id="about-title">A researcher’s curiosity.<br> An engineer’s instinct.</h2>
+        <p>I trained in computer science at UESTC and in neuroscience and AI at McGill and Mila, then went straight into building: founding engineer at an AI startup in 2023, and since 2024 the engineer behind BrainScores’ platform and the MICA Lab’s open-source stack.</p>
+        <p>I like owning the whole thing: the model, the pipeline around it, the infrastructure under it, and the tests that let other people trust it. Most days that means Python, Snakemake, FastAPI, Terraform and a cluster queue.</p>
+        <p>Claude Code and Codex are my primary coding tools, with every change gated by CI, tests and code review. In 2026 my team was among the prize winners at Build OS26, Mila Ventures’ AI-agent hackathon.</p>
+        <p>Authorized to work in Canada, with permanent residence in process. English, French (B2) and Mandarin.</p>
+        <div class="inline-links about-links"><a href="https://www.linkedin.com/in/enning-yang-aa3286189/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a><a href="assets/Enning_Yang_Resume.pdf" target="_blank" rel="noopener">Résumé (PDF) <span aria-hidden="true">↗</span></a></div>
+      </div>
+      <div class="background reveal">
+        <figure class="about-portrait"><img src="assets/enning-yang.jpg" width="1193" height="1287" alt="Enning Yang smiling, wearing glasses" loading="lazy"></figure>
+        <h3>Along the way</h3>
+        <ol class="timeline"><li><span class="date">SEP 2024 — NOW</span><div><h4>Research Software Developer</h4><p>BrainScores · MICA Lab, McGill University, Montréal</p></div></li><li><span class="date">2023 — 2024</span><div><h4>Founding Software Engineer, AI</h4><p>Eureka Inc., Seattle (remote)</p></div></li><li><span class="date">2020</span><div><h4>Data Science Intern</h4><p>Intel Corporation</p></div></li></ol>
+        <div class="education"><h3>Education</h3><p><strong>MSc, Neuroscience &amp; Artificial Intelligence</strong><br> McGill University &amp; Mila · 2021 — 2023</p><p><strong>BEng, Computer Science with Honors</strong><br> UESTC · 2016 — 2020<br> <span class="muted">Exchange semester at UC Berkeley</span></p></div>
+      </div>
     </div></section>
 
     <section class="research section-shell" id="research" aria-labelledby="research-title"><div class="research-header reveal"><div><p class="eyebrow">03 / SELECTED RESEARCH</p><h2 id="research-title">Ideas in print.</h2></div><p>From how the brain follows a story<br> to how AI plays alongside a musician.</p></div>
-      <a class="paper reveal" href="https://proceedings.iclr.cc/paper_files/paper/2026/hash/e6731a1d3eddafeb8c94669a1d82fc5d-Abstract-Conference.html" target="_blank" rel="noopener noreferrer"><div class="paper-venue"><span>ICLR</span><span>2026</span></div><div><h3>Generative Adversarial Post-Training Mitigates Reward Hacking in Live Human-AI Music Interaction</h3><p>Co-author · Built the real-time ONNX inference path that lets the model jam live with a human</p></div><span class="paper-arrow" aria-hidden="true">↗</span></a>
+      <a class="paper reveal" href="https://proceedings.iclr.cc/paper_files/paper/2026/hash/e6731a1d3eddafeb8c94669a1d82fc5d-Abstract-Conference.html" target="_blank" rel="noopener noreferrer"><div class="paper-venue"><span>ICLR</span><span>2026</span></div><div><h3>Generative Adversarial Post-Training Mitigates Reward Hacking in Live Human-AI Music Interaction</h3><p>Co-author · Engineering lead for the real-time ONNX inference path that lets the model jam live with a human</p></div><span class="paper-arrow" aria-hidden="true">↗</span></a>
       <a class="paper reveal" href="https://www.nature.com/articles/s41467-023-39862-y" target="_blank" rel="noopener noreferrer"><div class="paper-venue"><span>Nature<br> Communications</span><span>2023</span></div><div><h3>The default network dominates neural responses to evolving movie stories</h3><p>First author · Natural language processing and statistical modeling over 50,000+ brain images</p></div><span class="paper-arrow" aria-hidden="true">↗</span></a>
     </section>
 
     <section class="contact" id="contact" aria-labelledby="contact-title"><div class="section-shell"><p class="eyebrow reveal">04 / WHAT’S NEXT?</p><div class="contact-main reveal"><h2 id="contact-title">Let’s build<br> something useful<span>.</span></h2><a class="contact-arrow" href="mailto:enning.yang@gmail.com" aria-label="Email Enning Yang"><span aria-hidden="true">↗</span></a></div><div class="contact-bottom reveal"><div><a class="email-link" href="mailto:enning.yang@gmail.com">enning.yang@gmail.com</a><div class="contact-links"><a href="https://github.com/zihuaihuai" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a><a href="https://www.linkedin.com/in/enning-yang-aa3286189/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a><a href="assets/Enning_Yang_Resume.pdf" target="_blank" rel="noopener">Résumé <span aria-hidden="true">↗</span></a></div></div><p>Looking for ML platform, MLOps and data &amp; AI roles<br> from November 2026. Montréal, hybrid, or remote in Canada.</p></div></div></section>
   </main>
   <footer class="site-footer"><span>© 2026 Enning Yang · Updated November 2026</span><span>Montréal · English / Français / 中文</span><a href="https://github.com/zihuaihuai/zihuaihuai.github.io" target="_blank" rel="noopener noreferrer">Website source <span aria-hidden="true">↗</span></a></footer>
+
+  <dialog class="lightbox" id="lightbox" aria-label="Enlarged image"><button class="lightbox-close" aria-label="Close">×</button><img alt=""><p class="lightbox-caption"></p></dialog>
 </body>
 </html>
